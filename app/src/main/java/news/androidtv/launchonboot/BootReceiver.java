@@ -69,13 +69,8 @@ public class BootReceiver extends BroadcastReceiver {
             context.startActivity(i);
         } else if (!settingsManager.getString(SettingsManagerConstants.LAUNCH_ACTIVITY).isEmpty()) {
             Intent i;
-            if (context.getResources().getBoolean(R.bool.IS_TV)) {
-                i = context.getPackageManager().getLeanbackLaunchIntentForPackage(
-                        settingsManager.getString(SettingsManagerConstants.LAUNCH_ACTIVITY));
-            } else {
                 i = context.getPackageManager().getLaunchIntentForPackage(
                         settingsManager.getString(SettingsManagerConstants.LAUNCH_ACTIVITY));
-            }
 
             if (i == null) {
                 Toast.makeText(context, R.string.null_intent, Toast.LENGTH_SHORT).show();

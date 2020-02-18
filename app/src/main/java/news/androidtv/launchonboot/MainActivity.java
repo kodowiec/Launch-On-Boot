@@ -149,11 +149,6 @@ public class MainActivity extends AppCompatActivity {
     public List<ResolveInfo> getLauncherApps() {
         final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         // Change which category is used based on form factor.
-        if (getResources().getBoolean(R.bool.IS_TV)) {
-            mainIntent.addCategory(Intent.CATEGORY_LEANBACK_LAUNCHER);
-        } else {
-            mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        }
         return getPackageManager().queryIntentActivities(mainIntent, 0);
     }
 
