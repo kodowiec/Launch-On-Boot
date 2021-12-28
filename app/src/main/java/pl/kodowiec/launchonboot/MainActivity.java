@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SettingsManager mSettingsManager;
     private Switch mSwitchEnabled;
+    private Switch mSwitchMuteAudio;
     private Switch mSwitchLiveChannels;
     private Switch mSwitchWakeup;
     private Switch mSwitchPreferLb;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         mSwitchLiveChannels = ((Switch) findViewById(R.id.switch_live_channels));
         mSwitchEnabled = ((Switch) findViewById(R.id.switch_enable));
+        mSwitchMuteAudio = ((Switch) findViewById(R.id.switch_mute));
         mSwitchWakeup = ((Switch) findViewById(R.id.switch_wakeup));
         mSwitchPreferLb = ((Switch) findViewById(R.id.switch_prefer_lb));
         mSwitchShowAll = ((Switch) findViewById(R.id.switch_show_all));
@@ -60,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
         mSwitchEnabled.setChecked(
                 mSettingsManager.getBoolean(SettingsManagerConstants.BOOT_APP_ENABLED));
+        mSwitchMuteAudio.setChecked(
+                mSettingsManager.getBoolean(SettingsManagerConstants.MUTE_DEVICE));
         mSwitchLiveChannels.setChecked(
                 mSettingsManager.getBoolean(SettingsManagerConstants.LAUNCH_LIVE_CHANNELS));
         mSwitchWakeup.setChecked(
@@ -99,6 +103,14 @@ public class MainActivity extends AppCompatActivity {
                         if (isChecked) {
                             startForegroundService();
                         }
+                    }
+                });
+        mSwitchMuteAudio.setOnCheckedChangeListener
+                (new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        mSettingsManager.setBoolean(SettingsManagerConstants.MUTE_DEVICE, isChecked);
+                        updateSelectionView();
                     }
                 });
         mSwitchPreferLb.setOnCheckedChangeListener
@@ -212,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateSelectionView() {
         if (mSwitchEnabled.isChecked()) {
             mSwitchWakeup.setEnabled(true);
+            mSwitchMuteAudio.setEnabled(true);
             mSwitchLiveChannels.setEnabled(true);
             findViewById(R.id.button_test).setEnabled(true);
             if (mSwitchLiveChannels.isChecked()) {
@@ -228,6 +241,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             mButtonSelectApp.setVisibility(GONE);
             mPackageName.setVisibility(GONE);
+            mSwitchMuteAudio.setEnabled(false);
             mSwitchShowAll.setEnabled(false);
             mSwitchPreferLb.setEnabled(false);
             mSwitchWakeup.setEnabled(false);

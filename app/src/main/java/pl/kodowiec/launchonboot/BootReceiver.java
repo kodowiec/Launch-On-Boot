@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.tv.TvContract;
 import android.os.Build;
 import android.util.Log;
@@ -51,6 +52,14 @@ public class BootReceiver extends BroadcastReceiver {
                 !settingsManager.getBoolean(SettingsManagerConstants.ON_WAKEUP)) {
             return;
         }
+
+        if (settingsManager.getBoolean(SettingsManagerConstants.MUTE_DEVICE))
+        {
+            AudioManager audioManager = (AudioManager) context.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
+            Log.d(TAG, "Stream: " + AudioManager.STREAM_MUSIC + " vol: " + audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+        }
+
         if (intent.getAction() != null &&
                 intent.getAction().equals(Intent.ACTION_SCREEN_ON) &&
                 !settingsManager.getBoolean(SettingsManagerConstants.ON_WAKEUP)) {

@@ -19,4 +19,5 @@
     <string name="button_select_app">Wybierz aplikację</string>
     <string name="button_test">Test</string>
     <string name="switch_show_all">Pokaż wszystkie aplikacje na liście</string>
+    <string name="switch_mute">Wyciszyć?</string>
 </resources>

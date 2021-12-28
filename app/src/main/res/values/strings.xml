@@ -18,4 +18,5 @@
     <string name="button_select_app">Select app</string>
     <string name="button_test">Test</string>
     <string name="switch_show_all">Show all apps</string>
+    <string name="switch_mute">Mute device?</string>
 </resources>
