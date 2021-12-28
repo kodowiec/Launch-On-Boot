@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private Switch mSwitchLiveChannels;
     private Switch mSwitchWakeup;
     private Switch mSwitchPreferLb;
+    private Switch mSwitchShowAll;
     private Button mButtonSelectApp;
     private TextView mPackageName;
 
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         mSwitchEnabled = ((Switch) findViewById(R.id.switch_enable));
         mSwitchWakeup = ((Switch) findViewById(R.id.switch_wakeup));
         mSwitchPreferLb = ((Switch) findViewById(R.id.switch_prefer_lb));
+        mSwitchShowAll = ((Switch) findViewById(R.id.switch_show_all));
         mButtonSelectApp = (Button) findViewById(R.id.button_select_app);
         mPackageName = ((TextView) findViewById(R.id.text_package_name));
 
@@ -64,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
                 mSettingsManager.getBoolean(SettingsManagerConstants.ON_WAKEUP));
         mSwitchPreferLb.setChecked(
                 mSettingsManager.getBoolean(SettingsManagerConstants.PREFER_LEANBACK_ACTIVITY));
+        mSwitchShowAll.setChecked(
+                mSettingsManager.getBoolean(SettingsManagerConstants.SHOW_ALL_APPS));
         mPackageName
                 .setText(_mPackageText());
         updateSelectionView();
@@ -102,6 +106,14 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         mSettingsManager.setBoolean(SettingsManagerConstants.PREFER_LEANBACK_ACTIVITY, isChecked);
+                        updateSelectionView();
+                    }
+                });
+        mSwitchShowAll.setOnCheckedChangeListener
+                (new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        mSettingsManager.setBoolean(SettingsManagerConstants.SHOW_ALL_APPS, isChecked);
                         updateSelectionView();
                     }
                 });
@@ -163,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
     public List<ResolveInfo> getLauncherApps() {
         final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         // Change which category is used based on form factor.
+        if (!mSettingsManager.getBoolean(SettingsManagerConstants.SHOW_ALL_APPS)) mainIntent.addCategory(Intent.CATEGORY_LEANBACK_LAUNCHER);
         return getPackageManager().queryIntentActivities(mainIntent, 0);
     }
 
@@ -198,18 +211,26 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateSelectionView() {
         if (mSwitchEnabled.isChecked()) {
+            mSwitchWakeup.setEnabled(true);
             mSwitchLiveChannels.setEnabled(true);
             findViewById(R.id.button_test).setEnabled(true);
             if (mSwitchLiveChannels.isChecked()) {
                 mButtonSelectApp.setVisibility(GONE);
                 mPackageName.setVisibility(GONE);
+                mSwitchShowAll.setEnabled(false);
+                mSwitchPreferLb.setEnabled(false);
             } else {
                 mButtonSelectApp.setVisibility(View.VISIBLE);
                 mPackageName.setVisibility(View.VISIBLE);
+                mSwitchShowAll.setEnabled(true);
+                mSwitchPreferLb.setEnabled(true);
             }
         } else {
             mButtonSelectApp.setVisibility(GONE);
             mPackageName.setVisibility(GONE);
+            mSwitchShowAll.setEnabled(false);
+            mSwitchPreferLb.setEnabled(false);
+            mSwitchWakeup.setEnabled(false);
             mSwitchLiveChannels.setEnabled(false);
             findViewById(R.id.button_test).setEnabled(false);
         }

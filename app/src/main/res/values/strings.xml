@@ -17,4 +17,5 @@
     <string name="switch_live_channels">Launch Tv App / Live Channels on Boot?</string>
     <string name="button_select_app">Select app</string>
     <string name="button_test">Test</string>
+    <string name="switch_show_all">Show all apps</string>
 </resources>
