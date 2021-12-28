@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Launch on Boot</string>
+    <string name="credits">Ta aplikacja pozwala na uruchomienie innej aplikacji przy włączeniu lub wybudzeniu urządzenia.\n\nStworzone przez: Interactive Tv Lab.\nKod źródłowy dostępny na Githubie\nhttps://github.com/ITVlab/Launch-On-Boot\nhttps://github.com/kodowiec/Launch-On-Boot</string>
+    <string name="null_intent">Nie można uruchomić aplikacji.</string>
+    <string name="onboarding_title_welcome">Witaj w \"Launch on Boot\"</string>
+    <string name="onboarding_description_welcome">Ten krótki przewodnik przeprowadzi Cię przez funkcje aplikacji.</string>
+    <string name="onboarding_title_what">Jak to działa?</string>
+    <string name="onboarding_description_what">Kiedy uruchomisz urządzenie, zwykle wita Cię ekran główny.\nTa aplikacja pozwoli Ci na zastąpienie tego zachowania - otwarcie dowolniej aplikacji!</string>
+    <string name="onboarding_title_tv">Live Channels</string>
+    <string name="onboarding_description_tv">Pozwala na uruchomienie dowolnej aplikacji, łącznie z tą odpowiadająca za zwykłą telewizję.</string>
+    <string name="onboarding_title_try">Wypróbuj!</string>
+    <string name="onboarding_description_try">Proste w użyciu. Wyłączane jednym kliknięciem.</string>
+    <string name="notification_text">Oczekiwanie...</string>
+    <string name="switch_wakeup">Uruchamiać przy wybudzeniu?</string>
+    <string name="switch_prefer_lb">Preferować wersję dla telewizorów?</string>
+    <string name="switch_enable">Włączono</string>
+    <string name="switch_live_channels">Uruchom Live Channels przy wlączaniu?</string>
+    <string name="button_select_app">Wybierz aplikację</string>
+    <string name="button_test">Test</string>
+</resources>
