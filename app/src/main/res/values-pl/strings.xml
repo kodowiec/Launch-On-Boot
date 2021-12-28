@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Launch on Boot</string>
-    <string name="credits">Ta aplikacja pozwala na uruchomienie innej aplikacji przy włączeniu lub wybudzeniu urządzenia.\n\nStworzone przez: Interactive Tv Lab.\nKod źródłowy dostępny na Githubie\nhttps://github.com/ITVlab/Launch-On-Boot\nhttps://github.com/kodowiec/Launch-On-Boot</string>
+    <string name="credits">Ta aplikacja pozwala na uruchomienie innej aplikacji przy włączeniu lub wybudzeniu urządzenia.\n\nStworzone przez: Interactive Tv Lab.\nKod źródłowy dostępny na Githubie\nhttps://github.com/ITVlab/Launch-On-Boot\nhttps://github.com/kodowiec/Launch-On-Boot-ng</string>
     <string name="null_intent">Nie można uruchomić aplikacji.</string>
     <string name="onboarding_title_welcome">Witaj w \"Launch on Boot\"</string>
     <string name="onboarding_description_welcome">Ten krótki przewodnik przeprowadzi Cię przez funkcje aplikacji.</string>
