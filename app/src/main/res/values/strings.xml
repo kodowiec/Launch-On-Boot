@@ -11,6 +11,10 @@
     <string name="onboarding_title_try">Try it out!</string>
     <string name="onboarding_description_try">It\'s easy to get started. And you can turn it off at any time.</string>
     <string name="notification_text">Waiting for events</string>
-    <string name="msg_wakeup">Launch when device wakes up?</string>
+    <string name="switch_wakeup">Launch when device wakes up?</string>
     <string name="switch_prefer_lb">Prefer TV (Leanback) activity of app?</string>
+    <string name="switch_enable">Enabled</string>
+    <string name="switch_live_channels">Launch Tv App / Live Channels on Boot?</string>
+    <string name="button_select_app">Select app</string>
+    <string name="button_test">Test</string>
 </resources>
