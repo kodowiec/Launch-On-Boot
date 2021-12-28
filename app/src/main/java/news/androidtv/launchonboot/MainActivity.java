@@ -3,6 +3,8 @@ package news.androidtv.launchonboot;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         mSwitchPreferLb.setChecked(
                 mSettingsManager.getBoolean(SettingsManagerConstants.PREFER_LEANBACK_ACTIVITY));
         mPackageName
-                .setText(mSettingsManager.getString(SettingsManagerConstants.LAUNCH_ACTIVITY));
+                .setText(_mPackageText());
         updateSelectionView();
 
         mSwitchEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -119,14 +121,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, android.R.style.Theme_Material_Light_Dialog))
-                        .setTitle("Select an app")
+                        .setTitle(R.string.button_select_app)
                         .setItems(getAppNames(getLauncherApps()), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 String packageName = getPackageName(getLauncherApps().get(which));
                                 mSettingsManager.setString(SettingsManagerConstants.LAUNCH_ACTIVITY,
                                         packageName);
-                                mPackageName.setText(packageName);
+                                mPackageName.setText(_mPackageText());
                             }
                         })
                         .show();
@@ -178,6 +180,20 @@ public class MainActivity extends AppCompatActivity {
 
     public String getPackageName(ResolveInfo resolveInfo) {
         return resolveInfo.activityInfo.packageName;
+    }
+
+    private String _mPackageText()
+    {
+        String pkgName = mSettingsManager.getString(SettingsManagerConstants.LAUNCH_ACTIVITY);
+        String appName = "";
+        try {
+            ApplicationInfo app = this.getPackageManager().getApplicationInfo(pkgName, 0);
+            appName = this.getPackageManager().getApplicationLabel(app).toString();
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        String result = appName + "\n" + pkgName;
+        return result;
     }
 
     private void updateSelectionView() {
