@@ -4,7 +4,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "24.0.2"
     defaultConfig {
-        applicationId "news.androidtv.launchonboot"
+        applicationId "pl.kodowiec.launchonboot"
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 12

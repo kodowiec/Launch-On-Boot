@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="32dp"
-    tools:context="news.androidtv.launchonboot.MainActivity">
+    tools:context="pl.kodowiec.launchonboot.MainActivity">
 
     <RelativeLayout
         android:layout_width="480dp"
@@ -90,7 +90,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:text="@string/switch_prefer_lb"
-            android:layout_toRightOf="@id/switch_wakeup"
+            android:layout_toRightOf="@id/switch_prefer_lb"
             android:layout_below="@id/switch_wakeup"
             android:layout_marginTop="16dp"
             android:layout_marginLeft="16dp"

@@ -1,4 +1,4 @@
-package news.androidtv.launchonboot;
+package pl.kodowiec.launchonboot;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("news.androidtv.launchonboot", appContext.getPackageName());
+        assertEquals("pl.kodowiec.launchonboot", appContext.getPackageName());
     }
 }

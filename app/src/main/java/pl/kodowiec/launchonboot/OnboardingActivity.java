@@ -1,4 +1,4 @@
-package news.androidtv.launchonboot;
+package pl.kodowiec.launchonboot;
 
 import android.app.Activity;
 import android.os.Bundle;
