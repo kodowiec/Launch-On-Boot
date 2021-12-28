@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private Switch mSwitchEnabled;
     private Switch mSwitchLiveChannels;
     private Switch mSwitchWakeup;
+    private Switch mSwitchPreferLb;
     private Button mButtonSelectApp;
     private TextView mPackageName;
 
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         mSwitchLiveChannels = ((Switch) findViewById(R.id.switch_live_channels));
         mSwitchEnabled = ((Switch) findViewById(R.id.switch_enable));
         mSwitchWakeup = ((Switch) findViewById(R.id.switch_wakeup));
+        mSwitchPreferLb = ((Switch) findViewById(R.id.switch_prefer_lb));
         mButtonSelectApp = (Button) findViewById(R.id.button_select_app);
         mPackageName = ((TextView) findViewById(R.id.text_package_name));
 
@@ -58,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
                 mSettingsManager.getBoolean(SettingsManagerConstants.LAUNCH_LIVE_CHANNELS));
         mSwitchWakeup.setChecked(
                 mSettingsManager.getBoolean(SettingsManagerConstants.ON_WAKEUP));
+        mSwitchPreferLb.setChecked(
+                mSettingsManager.getBoolean(SettingsManagerConstants.PREFER_LEANBACK_ACTIVITY));
         mPackageName
                 .setText(mSettingsManager.getString(SettingsManagerConstants.LAUNCH_ACTIVITY));
         updateSelectionView();
@@ -89,6 +93,14 @@ public class MainActivity extends AppCompatActivity {
                         if (isChecked) {
                             startForegroundService();
                         }
+                    }
+                });
+        mSwitchPreferLb.setOnCheckedChangeListener
+                (new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        mSettingsManager.setBoolean(SettingsManagerConstants.PREFER_LEANBACK_ACTIVITY, isChecked);
+                        updateSelectionView();
                     }
                 });
 
@@ -156,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
         String[] appNames = new String[leanbackApps.size()];
         for (int i = 0; i < leanbackApps.size(); i++) {
             ResolveInfo info = leanbackApps.get(i);
-            appNames[i] = info.loadLabel(this.getPackageManager()).toString();
+            appNames[i] = info.loadLabel(this.getPackageManager()).toString() + "\n" + info.activityInfo.name;
             Log.d(TAG, info.loadLabel(this.getPackageManager()).toString());
             Log.d(TAG, info.activityInfo.toString());
             Log.d(TAG, info.activityInfo.name);

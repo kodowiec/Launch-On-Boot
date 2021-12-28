@@ -69,18 +69,35 @@ public class BootReceiver extends BroadcastReceiver {
             context.startActivity(i);
         } else if (!settingsManager.getString(SettingsManagerConstants.LAUNCH_ACTIVITY).isEmpty()) {
             Intent i;
+            Intent i2;
                 i = context.getPackageManager().getLaunchIntentForPackage(
                         settingsManager.getString(SettingsManagerConstants.LAUNCH_ACTIVITY));
 
-            if (i == null) {
+                i2 = context.getPackageManager().getLeanbackLaunchIntentForPackage(
+                        settingsManager.getString(SettingsManagerConstants.LAUNCH_ACTIVITY));
+
+            if (i == null || i2 == null) {
                 Toast.makeText(context, R.string.null_intent, Toast.LENGTH_SHORT).show();
                 return;
             }
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            if (settingsManager.getBoolean(SettingsManagerConstants.PREFER_LEANBACK_ACTIVITY)) {
+                // let's swap them
+                Intent temp = i2;
+                i2 = i;
+                i = temp;
+            }
+
             try {
                 context.startActivity(i);
             } catch (ActivityNotFoundException e) {
-                Toast.makeText(context, R.string.null_intent, Toast.LENGTH_SHORT).show();
+                try {
+                    context.startActivity(i2);
+                } catch (ActivityNotFoundException e2) {
+                    Toast.makeText(context, R.string.null_intent, Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }

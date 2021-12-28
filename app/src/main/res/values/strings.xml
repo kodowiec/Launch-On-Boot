@@ -12,4 +12,5 @@
     <string name="onboarding_description_try">It\'s easy to get started. And you can turn it off at any time.</string>
     <string name="notification_text">Waiting for events</string>
     <string name="msg_wakeup">Launch when device wakes up?</string>
+    <string name="switch_prefer_lb">Prefer TV (Leanback) activity of app?</string>
 </resources>
