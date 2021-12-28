@@ -6,14 +6,18 @@ import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ListAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -37,6 +41,23 @@ public class MainActivity extends AppCompatActivity {
     private Switch mSwitchShowAll;
     private Button mButtonSelectApp;
     private TextView mPackageName;
+
+    public static class AppListItem{
+        public final String text;
+        public final String pkgName;
+        public final String activityName;
+        public final Drawable icon;
+        public AppListItem(String text, Drawable icon, String pkgName, String activityName) {
+            this.text = text;
+            this.icon = icon;
+            this.pkgName = pkgName;
+            this.activityName = activityName;
+        }
+        @Override
+        public String toString() {
+            return text;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,11 +163,36 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mButtonSelectApp.setOnClickListener(new View.OnClickListener() {
+            AppListItem[] appListItems = getAppList();
             @Override
             public void onClick(View v) {
+                ListAdapter adapter = new ArrayAdapter<AppListItem>(MainActivity.this,
+                        android.R.layout.select_dialog_item,
+                        android.R.id.text1,
+                        appListItems){
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        //Use super class to create the View
+                        View v = super.getView(position, convertView, parent);
+                        TextView tv = (TextView)v.findViewById(android.R.id.text1);
+
+                        //Put the image on the TextView
+                        Drawable icn = appListItems[position].icon;
+                        int dp64 = (int) (64 * getResources().getDisplayMetrics().density);
+                        icn.setBounds(0, 0, dp64, dp64);
+                        tv.setCompoundDrawables(icn, null, null, null);
+
+                        //Add margin between image and text (support various screen densities)
+                        int dp5 = (int) (5 * getResources().getDisplayMetrics().density + 0.5f);
+                        int dp10 = (int) (10 * getResources().getDisplayMetrics().density + 0.5f);
+                        tv.setCompoundDrawablePadding(dp5);
+                        tv.setPadding(dp10, dp10, dp10, dp10);
+
+                        return v;
+                    }
+                };
                 new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, android.R.style.Theme_Material_Light_Dialog))
                         .setTitle(R.string.button_select_app)
-                        .setItems(getAppNames(getLauncherApps()), new DialogInterface.OnClickListener() {
+                        .setAdapter(adapter, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 String packageName = getPackageName(getLauncherApps().get(which));
@@ -189,6 +235,21 @@ public class MainActivity extends AppCompatActivity {
         // Change which category is used based on form factor.
         if (!mSettingsManager.getBoolean(SettingsManagerConstants.SHOW_ALL_APPS)) mainIntent.addCategory(Intent.CATEGORY_LEANBACK_LAUNCHER);
         return getPackageManager().queryIntentActivities(mainIntent, 0);
+    }
+
+    public AppListItem[] getAppList()
+    {
+        List<ResolveInfo> apps = getLauncherApps();
+        AppListItem[] items = new AppListItem[apps.size()];
+        for (int i = 0; i < apps.size(); i++)
+        {
+            ResolveInfo info = apps.get(i);
+            String pkgName = info.activityInfo.packageName;
+            String appName = info.loadLabel(this.getPackageManager()).toString();
+            AppListItem current = new AppListItem(appName + "\n" + pkgName, info.loadIcon(this.getPackageManager()), info.activityInfo.packageName, info.activityInfo.name);
+            items[i] = current;
+        }
+        return items;
     }
 
     public String[] getAppNames(List<ResolveInfo> leanbackApps) {
